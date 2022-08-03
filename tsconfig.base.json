@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@pokemon-supabase-example/pokemon-db": ["libs/pokemon-db/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
