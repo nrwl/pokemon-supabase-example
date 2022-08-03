@@ -9,6 +9,8 @@
   },
   "private": true,
   "dependencies": {
+    "@types/inquirer": "^8.2.1",
+    "inquirer": "^9.0.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
