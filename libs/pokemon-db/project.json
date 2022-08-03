@@ -17,6 +17,20 @@
         "jestConfig": "libs/pokemon-db/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "start": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["supabase start"],
+        "cwd": "libs/pokemon-db"
+      }
+    },
+    "stop": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["supabase stop"],
+        "cwd": "libs/pokemon-db"
+      }
     }
   },
   "tags": []
