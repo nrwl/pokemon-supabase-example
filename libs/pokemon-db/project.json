@@ -31,6 +31,24 @@
         "commands": ["supabase stop"],
         "cwd": "libs/pokemon-db"
       }
+    },
+    "create-local-snapshot": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npx ts-node libs/pokemon-db/src/create-snapshot-of-local.ts -P libs/database-instance/aeons-world/tsconfig.json"
+        ],
+        "parallel": false
+      }
+    },
+    "create-prod-snapshot": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npx ts-node libs/pokemon-db/src/create-snapshot-of-prod.ts -P libs/database-instance/aeons-world/tsconfig.json"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": []
