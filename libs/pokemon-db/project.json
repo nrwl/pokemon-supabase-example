@@ -49,6 +49,16 @@
         ],
         "parallel": false
       }
+    },
+    "restore-snapshot-to-local-db": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npx ts-node libs/pokemon-db/src/restore-snapshot.ts -P libs/pokemon-db/tsconfig.json"
+        ],
+        "parallel": false,
+        "__unparsed__": []
+      }
     }
   },
   "tags": []
