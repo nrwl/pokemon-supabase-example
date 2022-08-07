@@ -237,12 +237,7 @@ export function StatsChart({
             RadialLinearScale: {
               max: 1,
               min: 0,
-              ticks: {
-                //   beginAtZero: true,
-                //   ticks: {
-                callback: () => '',
-                //   },
-              },
+              ticks: { callback: () => '' },
             },
           },
         }}
