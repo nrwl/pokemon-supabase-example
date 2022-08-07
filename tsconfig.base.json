@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@pokemon-supabase-example/pokemon-data-client": [
+        "libs/pokemon-data-client/src/index.ts"
+      ],
       "@pokemon-supabase-example/pokemon-db": ["libs/pokemon-db/src/index.ts"]
     }
   },
