@@ -2,6 +2,8 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "pokedex": "apps/pokedex",
+    "pokedex-e2e": "apps/pokedex-e2e",
     "pokemon-data-client": "libs/pokemon-data-client",
     "pokemon-db": "libs/pokemon-db",
     "serebii-net-gen-1-scraper": "apps/serebii-net-gen-1-scraper"

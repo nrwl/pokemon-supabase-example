@@ -15,6 +15,14 @@ export interface Stats {
   speed: number;
 }
 
+export const maxStats: Stats = {
+  hp: 250,
+  attack: 134,
+  defense: 180,
+  special: 154,
+  speed: 140,
+};
+
 export interface FullPokemon {
   id: string;
   name: string;
@@ -38,6 +46,9 @@ export interface BasicPokemonInfo {
   types: [Type] | [Type, Type];
   classification: string;
   imageUrl: string;
+  baseStats: Stats;
+  height: number;
+  weight: number;
 }
 
 export interface Move {
@@ -52,7 +63,7 @@ export interface Move {
 
 export interface PokemonDataClient {
   getFullPokemonDataById(id: string): Promise<FullPokemon>;
-  getAllBasicPokemonInfo(id: string): Promise<BasicPokemonInfo[]>;
+  getAllBasicPokemonInfo(): Promise<BasicPokemonInfo[]>;
 }
 
 export function createPokemonDataClient(): PokemonDataClient {
@@ -92,9 +103,9 @@ export function createPokemonDataClient(): PokemonDataClient {
       ...(movesByItemData || []),
     ].map((move) => move.move_id);
     const { data: moveData, error: moveError } = await client
-      .from<MoveTableEntity>('move')
+      .from<MoveTableEntity>('moves')
       .select()
-      .filter('id', 'in', moveIds);
+      .in('id', moveIds);
     if (moveError) {
       throw new Error(`Error getting moves for pokemon at id: ${id}`);
     }
@@ -169,6 +180,15 @@ export function createPokemonDataClient(): PokemonDataClient {
         : [pokemonTableEntity.type1],
       classification: pokemonTableEntity.classification,
       imageUrl: pokemonTableEntity.image_url,
+      baseStats: {
+        hp: pokemonTableEntity.base_stat_hp,
+        attack: pokemonTableEntity.base_stat_attack,
+        defense: pokemonTableEntity.base_stat_defense,
+        special: pokemonTableEntity.base_stat_special,
+        speed: pokemonTableEntity.base_stat_speed,
+      },
+      height: pokemonTableEntity.height,
+      weight: pokemonTableEntity.weight,
     }));
   };
   return {

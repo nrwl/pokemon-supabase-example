@@ -11,9 +11,9 @@ export async function scrapePokemonData(id: number) {
   const url = `https://www.serebii.net/pokedex/${padLeadingZeros(id)}.shtml`;
   const driver = await createDriver();
   await driver.get(url);
-  const image_url = `https://serebii.net${await driver
+  const image_url = await driver
     .findElement(By.css('#sprite-rb'))
-    .getAttribute('src')}`;
+    .getAttribute('src');
   const name = await driver
     .findElement(By.css('table.dextable:nth-child(5) .fooinfo'))
     .getText();
