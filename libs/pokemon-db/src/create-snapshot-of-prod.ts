@@ -1,6 +1,6 @@
-createSnapshotOfLocal();
+createSnapshotOfProd();
 
-async function createSnapshotOfLocal() {
+async function createSnapshotOfProd() {
   // eslint-disable-next-line
   const { execSync } = require('child_process');
 
@@ -15,6 +15,6 @@ async function createSnapshotOfLocal() {
     })) || now.toISOString();
 
   execSync(
-    `PGPASSWORD=$POKEMON_DB_POSTGRES_PASSWORD pg_dump -h $POKEMON_DB_POSTGRES_HOST -p 5432 -U postgres -a --inserts -f libs/pokemon-db/supabase/snapshots/prod-${name}.sql -t public.pokemon -t public.moves -t public.learnable_moves`
+    `PGPASSWORD=$POKEMON_DB_POSTGRES_PASSWORD pg_dump -h $POKEMON_DB_POSTGRES_HOST -p 5432 -U postgres -a --inserts -f libs/pokemon-db/supabase/snapshots/prod-${name}.sql -t public.types -t public.pokemon -t public.moves -t public.moves_learned_by_item -t public.moves_learned_by_level`
   );
 }

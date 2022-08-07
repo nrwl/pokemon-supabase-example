@@ -3,21 +3,6 @@
   "sourceRoot": "libs/pokemon-db/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/pokemon-db/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/pokemon-db"],
-      "options": {
-        "jestConfig": "libs/pokemon-db/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "start": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -55,6 +40,16 @@
       "options": {
         "commands": [
           "npx ts-node libs/pokemon-db/src/restore-snapshot.ts -P libs/pokemon-db/tsconfig.json"
+        ],
+        "parallel": false,
+        "__unparsed__": []
+      }
+    },
+    "clear-local-db-data": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "PGPASSWORD=postgres psql -U postgres -h 127.0.0.1 -p 54322 -f libs/pokemon-db/supabase/clear-db.sql"
         ],
         "parallel": false,
         "__unparsed__": []

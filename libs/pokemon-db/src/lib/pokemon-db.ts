@@ -6,33 +6,33 @@ export interface PokemonTableEntity {
   classification: string;
   height: number;
   weight: number;
-  captureRate: number;
-  imageUrl: string;
-  baseStatHp: number;
-  baseStatAttack: number;
-  baseStatDefense: number;
-  baseStatSpecial: number;
-  baseStatSpeed: number;
-  level50MinHp: number;
-  level50MaxHp: number;
-  level50MinAttack: number;
-  level50MaxAttack: number;
-  level50MinDefense: number;
-  level50MaxDefense: number;
-  level50MinSpecial: number;
-  level50MaxSpecial: number;
-  level50MinSpeed: number;
-  level50MaxSpeed: number;
-  level100MinHp: number;
-  level100MaxHp: number;
-  level100MinAttack: number;
-  level100MaxAttack: number;
-  level100MinDefense: number;
-  level100MaxDefense: number;
-  level100MinSpecial: number;
-  level100MaxSpecial: number;
-  level100MinSpeed: number;
-  level100MaxSpeed: number;
+  capture_rate: number;
+  image_url: string;
+  base_stat_hp: number;
+  base_stat_attack: number;
+  base_stat_defense: number;
+  base_stat_special: number;
+  base_stat_speed: number;
+  level_50_min_hp: number;
+  level_50_max_hp: number;
+  level_50_min_attack: number;
+  level_50_max_attack: number;
+  level_50_min_defense: number;
+  level_50_max_defense: number;
+  level_50_min_special: number;
+  level_50_max_special: number;
+  level_50_min_speed: number;
+  level_50_max_speed: number;
+  level_100_min_hp: number;
+  level_100_max_hp: number;
+  level_100_min_attack: number;
+  level_100_max_attack: number;
+  level_100_min_defense: number;
+  level_100_max_defense: number;
+  level_100_min_special: number;
+  level_100_max_special: number;
+  level_100_min_speed: number;
+  level_100_max_speed: number;
 }
 
 export interface MoveTableEntity {
@@ -40,10 +40,10 @@ export interface MoveTableEntity {
   name: string;
   type: Type;
   description: string;
-  attack: number;
-  accuracy: number;
-  powerPoints: number;
-  effectPercentage: number;
+  attack?: number;
+  accuracy?: number;
+  power_points: number;
+  effect_percentage?: number;
 }
 
 export interface TypeTableEntity {
@@ -51,15 +51,15 @@ export interface TypeTableEntity {
 }
 
 export interface MovesLearnedByLevelTableEntity {
-  pokemonId: string;
-  moveId: string;
+  pokemon_id: string;
+  move_id: string;
   level: number | undefined;
 }
 
 export interface MovesLearnedByItem {
-  pokemonId: string;
-  moveId: string;
-  itemName: string;
+  pokemon_id: string;
+  move_id: string;
+  item_name: string;
 }
 
 export const types = [
@@ -76,6 +76,18 @@ export const types = [
   'bug',
   'ghost',
   'dragon',
+  'flying',
+  'ice',
 ] as const;
 
 export type Type = typeof types[number];
+
+export function isType(value: string): value is Type {
+  return types.includes(value as any);
+}
+
+export function assertType(value: string): asserts value is Type {
+  if (!isType(value)) {
+    throw new Error(`${value} is not a valid type`);
+  }
+}

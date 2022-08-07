@@ -1,0 +1,57 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/serebii-net-gen-1-scraper/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/serebii-net-gen-1-scraper",
+        "main": "apps/serebii-net-gen-1-scraper/src/main.ts",
+        "tsConfig": "apps/serebii-net-gen-1-scraper/tsconfig.app.json",
+        "assets": ["apps/serebii-net-gen-1-scraper/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/serebii-net-gen-1-scraper/src/environments/environment.ts",
+              "with": "apps/serebii-net-gen-1-scraper/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "serebii-net-gen-1-scraper:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "serebii-net-gen-1-scraper:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/serebii-net-gen-1-scraper/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/serebii-net-gen-1-scraper"],
+      "options": {
+        "jestConfig": "apps/serebii-net-gen-1-scraper/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
