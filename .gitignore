@@ -41,3 +41,8 @@ Thumbs.db
 # Supabase
 **/supabase/.branches
 **/supabase/.temp
+
+.env
+
+# Local Netlify folder
+.netlify

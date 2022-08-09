@@ -75,6 +75,17 @@
         "jestConfig": "apps/pokedex/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npx nx build pokedex --prod",
+          "netlify deploy --prod -d ./dist/apps/pokedex --auth $NETLIFY_AUTH_TOKEN"
+        ],
+        "parallel": false,
+        "outputPath": "dist/apps/aeons-of-ascension-web-client"
+      }
     }
   },
   "tags": []

@@ -28,11 +28,11 @@ export interface FullPokemon {
   name: string;
   types: [Type] | [Type, Type];
   classification: string;
+  imageUrl: string;
+  baseStats: Stats;
   height: number;
   weight: number;
   captureRate: number;
-  imageUrl: string;
-  baseStats: Stats;
   level50MinStats: Stats;
   level50MaxStats: Stats;
   level100MinStats: Stats;
@@ -62,16 +62,43 @@ export interface Move {
 }
 
 export interface PokemonDataClient {
-  getFullPokemonDataById(id: string): Promise<FullPokemon>;
   getAllBasicPokemonInfo(): Promise<BasicPokemonInfo[]>;
+  getFullPokemonDataById(id: string): Promise<FullPokemon>;
 }
 
 export function createPokemonDataClient(): PokemonDataClient {
-  const SUPABASE_URL = 'http://localhost:54321';
-  const SUPABASE_KEY =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSJ9.vI9obAHOGyVVKa3pD--kJlyxp-Z2zV9UUMAhKpNLAcU';
+  const { supabaseUrl, supabaseKey } = getSupabaseCredsFromEnv();
 
-  const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const client = createClient(supabaseUrl, supabaseKey);
+
+  const getAllBasicPokemonInfo = async (): Promise<BasicPokemonInfo[]> => {
+    const { data, error } = await client
+      .from<PokemonTableEntity>('pokemon')
+      .select();
+    if (error) {
+      throw new Error(`Error getting pokemon basic info`);
+    }
+    function convertData(inc: PokemonTableEntity): BasicPokemonInfo {
+      return {
+        id: inc.id,
+        name: inc.name,
+        types: inc.type2 ? [inc.type1, inc.type2] : [inc.type1],
+        classification: inc.classification,
+        imageUrl: inc.image_url,
+        baseStats: {
+          hp: inc.base_stat_hp,
+          attack: inc.base_stat_attack,
+          defense: inc.base_stat_defense,
+          special: inc.base_stat_special,
+          speed: inc.base_stat_speed,
+        },
+        height: inc.height,
+        weight: inc.weight,
+      };
+    }
+    return data.map(convertData);
+  };
+
   const getFullPokemonDataById = async (id: string): Promise<FullPokemon> => {
     const [
       { data: pokemonData, error: pokemonError },
@@ -106,9 +133,15 @@ export function createPokemonDataClient(): PokemonDataClient {
       .from<MoveTableEntity>('moves')
       .select()
       .in('id', moveIds);
-    if (moveError) {
+    if (!moveData || moveError) {
       throw new Error(`Error getting moves for pokemon at id: ${id}`);
     }
+    return convertToFullPokemon(pokemon, moveData);
+  };
+  function convertToFullPokemon(
+    pokemon: PokemonTableEntity,
+    movesData: MoveTableEntity[]
+  ): FullPokemon {
     return {
       id: pokemon.id,
       name: pokemon.name,
@@ -154,7 +187,7 @@ export function createPokemonDataClient(): PokemonDataClient {
         speed: pokemon.level_100_max_speed,
       },
       learnableMoves:
-        moveData?.map((moveTableEntity) => ({
+        movesData?.map((moveTableEntity) => ({
           name: moveTableEntity.name,
           type: moveTableEntity.type,
           description: moveTableEntity.description,
@@ -164,35 +197,25 @@ export function createPokemonDataClient(): PokemonDataClient {
           effectPercentage: moveTableEntity.effect_percentage,
         })) || [],
     };
-  };
-  const getAllBasicPokemonInfo = async (): Promise<BasicPokemonInfo[]> => {
-    const { data, error } = await client
-      .from<PokemonTableEntity>('pokemon')
-      .select();
-    if (error) {
-      throw new Error(`Error getting pokemon basic info`);
-    }
-    return data.map((pokemonTableEntity) => ({
-      id: pokemonTableEntity.id,
-      name: pokemonTableEntity.name,
-      types: pokemonTableEntity.type2
-        ? [pokemonTableEntity.type1, pokemonTableEntity.type2]
-        : [pokemonTableEntity.type1],
-      classification: pokemonTableEntity.classification,
-      imageUrl: pokemonTableEntity.image_url,
-      baseStats: {
-        hp: pokemonTableEntity.base_stat_hp,
-        attack: pokemonTableEntity.base_stat_attack,
-        defense: pokemonTableEntity.base_stat_defense,
-        special: pokemonTableEntity.base_stat_special,
-        speed: pokemonTableEntity.base_stat_speed,
-      },
-      height: pokemonTableEntity.height,
-      weight: pokemonTableEntity.weight,
-    }));
-  };
+  }
   return {
     getFullPokemonDataById,
     getAllBasicPokemonInfo,
+  };
+}
+
+function getSupabaseCredsFromEnv(): {
+  supabaseUrl: string;
+  supabaseKey: string;
+} {
+  const { supabaseApiUrl, supabaseApiKey } = (window as any).env;
+  if (!supabaseApiUrl || !supabaseApiKey) {
+    throw new Error(
+      'Missing SUPABASE_URL or SUPABASE_KEY environment variables'
+    );
+  }
+  return {
+    supabaseKey: supabaseApiKey,
+    supabaseUrl: supabaseApiUrl,
   };
 }
