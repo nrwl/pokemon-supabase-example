@@ -4,16 +4,26 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "cypressConfig": "apps/pokedex-e2e/cypress.config.ts",
-        "devServerTarget": "pokedex:serve:development",
-        "testingType": "e2e"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "pokedex:serve:production"
-        }
+        "commands": ["playwright test"],
+        "cwd": "apps/pokedex-e2e"
+      }
+    },
+    "debug": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "PWDEBUG=1 playwright test --project=chromium --timeout=0"
+        ],
+        "cwd": "apps/pokedex-e2e"
+      }
+    },
+    "show-report": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["playwright show-report"],
+        "cwd": "apps/pokedex-e2e"
       }
     },
     "lint": {

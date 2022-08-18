@@ -110,7 +110,7 @@ export function Home() {
 export function BasicPokemonCard({ pokemon }: { pokemon: BasicPokemonInfo }) {
   return (
     <Link to={`/pokemon/${pokemon.id}`}>
-      <div className="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-600 cursor-pointer">
+      <div className="pokemon-card max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-600 cursor-pointer">
         <div className="flex justify-end px-4 pt-4 cursor-pointer">
           <div className="inline-block text-gray-500 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5">
             <span>#{pokemon.id}</span>

@@ -118,7 +118,7 @@ function MoveTable({ moves }: { moves: Move[] }) {
 
 function MoveRow({ move }: { move: Move }) {
   return (
-    <tr>
+    <tr className="move">
       <td className="px-6">{move.name}</td>
       <td className="px-6">{move.description}</td>
       <td className="px-6">
