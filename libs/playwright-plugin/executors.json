@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "executors": {
+    "playwright": {
+      "implementation": "./src/executors/playwright/executor",
+      "schema": "./src/executors/playwright/schema.json",
+      "description": "Run Playwright."
+    },
+    "show-report": {
+      "implementation": "./src/executors/show-report/executor",
+      "schema": "./src/executors/show-report/schema.json",
+      "description": "Run Playwright show-report"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Playwright executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "playwrightConfig": {
+      "type": "string",
+      "description": "Path to the playwright config file"
+    },
+    "debug": {
+      "type": "boolean",
+      "description": "Enable debug mode"
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the playwright project to run, e.g.: chromium, webkit, etc"
+    },
+    "timeout": {
+      "type": "number",
+      "description": "Timeout for each test in milliseconds - use 0 to remove timeouts"
+    }
+  },
+  "required": []
+}

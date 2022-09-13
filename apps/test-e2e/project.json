@@ -1,13 +1,14 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/pokedex-e2e/src",
   "projectType": "application",
+  "sourceRoot": "apps/test-e2e/src",
   "targets": {
     "e2e": {
       "executor": "@pokemon-supabase-example/playwright-plugin:playwright",
       "options": {
         "playwrightConfig": "playwright.config.ts"
-      }
+      },
+      "outputs": ["apps/test-e2e/playwright-report"]
     },
     "debug": {
       "executor": "@pokemon-supabase-example/playwright-plugin:playwright",
@@ -25,10 +26,9 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/pokedex-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/test-e2e/**/*.{js,ts}"]
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": ["pokedex"]
+  "tags": []
 }

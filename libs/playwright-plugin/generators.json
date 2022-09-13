@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "playwright-plugin",
+  "version": "0.0.1",
+  "generators": {
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "To be run on plugin installation."
+    },
+    "playwright-project": {
+      "factory": "./src/generators/playwright-project/generator",
+      "schema": "./src/generators/playwright-project/schema.json",
+      "description": "Generate a Playwright Nx project"
+    }
+  }
+}
